@@ -144,9 +144,13 @@ defmodule ClusterEC2.Strategy.Tags do
               |> SweetXml.xpath(ip_xpath(Keyword.get(config, :ip_type, :private)))
               |> ip_to_nodename.(app_prefix)
 
+            Logger.debug("describe_instance response: #{inspect(body)}")
+            Logger.debug("describe_instance nodes: #{inspect(resp)}")
+
             {:ok, MapSet.new(resp)}
 
-          _ ->
+          other ->
+            Logger.debug("describe_instance error: #{inspect(other)}")
             {:error, []}
         end
 
